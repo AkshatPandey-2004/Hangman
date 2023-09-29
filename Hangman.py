@@ -1,5 +1,6 @@
 import pygame
 import os
+import maths
 #Setup Display
 pygame.init()
 WIDTH, HEIGHT=800, 500
@@ -37,6 +38,8 @@ BLACK=(0,0,0)
 
 #game variable
 hangman_status=0
+word="DEVELOPER"
+guessed=[]
 
 #Setup Game
 FPS=60
@@ -45,6 +48,17 @@ run=True
 
 def draw():
     win.fill(WHITE)
+    
+    #DRAW WORDS
+    display_word=""
+    for letter in word:
+        if letter  in guessed:
+            display_word+=letter + " "
+        else:
+            display_word+="_ "
+    text=WORD_FONT.render(display_word,1,BLACK)
+    win.blit(text,(400,200))
+    
     #DRAW BUTTONS
     for letter in letters:
         x, y, ltr, visible=letter
@@ -63,7 +77,28 @@ while run:
         if event.type==pygame.QUIT:
             run=False
         if event.type==pygame.MOUSEBUTTONDOWN:
-            pos=pygame.mouse.get_pos()
-            print(pos)
+            m_x, m_y=pygame.mouse.get_pos()
+            for letter in letters:
+                x,y,ltr,visible=letter
+                if visible:
+                    dis=math.sqrt((x-m_x)**2 + (y-m_y)**2)
+                    if dis < RADIUS:
+                        letter[3]=False
+                        guessed.append(ltr)
+                        if ltr not in word:
+                            hangman_status+=1
+
+    won=True
+    for letter in word:
+        if letter not in guessed:
+            won=False
+            break
+
+    if won:
+        print("Won")
+        break
+    if hangman_status==6:
+        print("you lost")
+        break
 
 pygame.quit()
