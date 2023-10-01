@@ -127,4 +127,28 @@ def main(points):
             pygame.display.update()
             pygame.time.delay(3000)
             break
+
+#Button Variabel
+#Below is the menu screen
+while True:
+    win.fill(WHITE)
+    text=TITLE_FONT.render("HANGMAN_GAME",1,BLACK)
+    win.blit(text,(WIDTH/2-text.get_width()/2,10))
+    pygame.draw.rect(win, BLACK, pygame.Rect(340, 200, 120, 60),  3)
+    text=TITLE_FONT.render("PLAY",1,BLACK)
+    win.blit(text,(350,200))
+    pygame.draw.rect(win, BLACK, pygame.Rect(340, 270, 120, 60),  3)
+    text=TITLE_FONT.render("EXIT",1,BLACK)
+    win.blit(text,(WIDTH/2-text.get_width()/2,270))
+    pygame.display.update()
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+    pygame.display.update()
+
+
+
+
+#main(points)
 pygame.quit()
