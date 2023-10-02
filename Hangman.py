@@ -203,3 +203,37 @@ def main_menu():
                 elif exit_button.collidepoint(mouse_x, mouse_y):
                     pygame.quit()
                     sys.exit()
+                    
+def draw_loser_screen(word, points):
+    win.fill(WHITE)
+    load_bg()
+    # Title
+    title_text = TITLE_FONT.render("You Lost!!", 1, BLACK)
+    title_rect = title_text.get_rect(center=(WIDTH/2, 50))
+    win.blit(title_text, title_rect)
+
+    text = WORD_FONT.render("Words was: " + str(word), 1, BLACK)
+    win.blit(text, (WIDTH/2 - text.get_width()/2, 100))
+
+    text = WORD_FONT.render("Your Score: " + str(points), 1, BLACK)
+    win.blit(text, (WIDTH/1.9 - text.get_width()/1.8, 170))
+
+    # Retry Button
+    retry_button = pygame.Rect(250, 250, 300, 80)
+    pygame.draw.rect(win, BLACK, retry_button, 3)
+    retry_text = WORD_FONT.render("Retry", 1, BLACK)
+    retry_text_rect = retry_text.get_rect(center=retry_button.center)
+    win.blit(retry_text, retry_text_rect)
+
+    # Exit Button
+    exit_button = pygame.Rect(250, 350, 300, 80)
+    pygame.draw.rect(win, BLACK, exit_button, 3)
+    exit_text = WORD_FONT.render("Exit", 1, BLACK)
+    exit_text_rect = exit_text.get_rect(center=exit_button.center)
+    win.blit(exit_text, exit_text_rect)
+
+    pygame.display.update()
+
+points = 0
+
+main_menu()
