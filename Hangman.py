@@ -2,12 +2,16 @@ import pygame
 import sys
 import math
 import random
-
+import time
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, message=".*iCCP: known incorrect sRGB profile.*")
 # Setup Display
 pygame.init()
 WIDTH, HEIGHT = 800, 500
-win = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Hangman Game")
+def display():
+    global win
+    win = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Hangman Game")
 
 # BUTTONS VARIABLE
 RADIUS = 20
@@ -90,14 +94,35 @@ def main(points):
     # Load images
     images = []
     for i in range(7):
-        image = pygame.image.load("C:/Users/aksha/OneDrive/Desktop/CODER/Devops_Lab/Hangman/hangman" + str(i) + ".png")
+        image = pygame.image.load("C:/Users/aksha/OneDrive/Desktop/CODER/Devops_Lab/Hangman/hangman" + str(i) + ".jpg")
         images.append(image)
         images_rect = image.get_rect()
 
     # Game variables
     hangman_status = 0
-    word = "DEVELOPER"
-    hint = "Codes software and programs."
+    words = [
+    'apple', 'baby', 'beach', 'bird', 'book', 'box', 'bus', 'cake', 'cat', 'chair',
+    'chicken', 'cloud', 'coin', 'computer', 'cup', 'dog', 'door', 'duck', 'egg', 'eye',
+    'fish', 'flower', 'food', 'frog', 'game', 'girl', 'guitar', 'hat', 'house', 'jacket',
+    'key', 'kite', 'lemon', 'light', 'lion', 'lock', 'love', 'map', 'money', 'moon']
+    hints = [
+    "Fruit with red or green skin.", "A newborn human.", "Sandy shore by the ocean.", "Feathered creature that can fly.", "An item to read for pleasure.",
+    "A container for storing things.", "Large vehicle for public transport.", "Sweet dessert often with frosting.", "A furry pet that says 'meow.'", "A piece of furniture to sit on.",
+    "Bird raised for eggs and meat.", "White puffy moisture in the sky.", "Circular piece of metal as currency.", "Device for work and play.", "Container for holding beverages.",
+    "A loyal four-legged companion.", "Entryway into a building.", "Waterfowl known for quacking.", "Protein-rich breakfast food.", "Body part for seeing.",
+    "Aquatic creature with fins.", "Colorful plant often given as a gift.", "Edible items we consume.", "Amphibian known for jumping.", "Form of entertainment or play.",
+    "Young female human.", "Musical instrument with strings.", "Headwear to protect from sun.", "A dwelling where people live.", "Outerwear to stay warm.",
+    "Tool to open doors or locks.","A flying object that soars in the sky.",
+    "A sour yellow fruit often used in drinks.",
+    "Source of illumination in the dark.", 
+    "A majestic wild cat known for its mane.", 
+    "A device used to secure something.", "Deep affection and care.", "Navigation tool with directions.", "Currency in coins and bills.", "Luminous celestial body."]
+
+# Now, the hints list contains hints corresponding to each word in the words list.
+
+    index=random.randint(0,len(words)-1)
+    word = words[index].upper()
+    hint = hints[index]
     guessed = []
     hint_visible = True  # Add a variable to track the visibility of the hint
     show_hint=False
@@ -121,6 +146,9 @@ def main(points):
                     win_p-=5
                 exit_button_rect = pygame.Rect(400, 450, 200, 30)
                 if exit_button_rect.collidepoint(event.pos):
+                    print("\nThank You For Playing")
+                    print("\nName: "+name)
+                    print("\nYour Score: "+ str(points))
                     pygame.quit()
                     sys.exit()
                 for letter in letters:
@@ -203,7 +231,7 @@ def main_menu():
                 elif exit_button.collidepoint(mouse_x, mouse_y):
                     pygame.quit()
                     sys.exit()
-                    
+
 def draw_loser_screen(word, points):
     win.fill(WHITE)
     load_bg()
@@ -233,7 +261,83 @@ def draw_loser_screen(word, points):
     win.blit(exit_text, exit_text_rect)
 
     pygame.display.update()
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                if retry_button.collidepoint(mouse_x, mouse_y):
+                    points = 0  # Reset the points
+                    main(points)  # Call the main() function to start a new game
+                elif exit_button.collidepoint(mouse_x, mouse_y):
+                    print("\nThank You For Playing")
+                    print("\nName: "+name)
+                    print("\nYour Score: "+ str(points))
+                    pygame.quit()
+                    sys.exit()
 
+
+def Wanna_Play():
+    Ans=input("\nShall we Start the Hangman game (y/n): ")
+    if Ans.lower()== 'y':
+        display()
+        main_menu()
+    elif Ans.lower()=='n':
+        print("(: THANK YOU :)")
+        sys.exit()
+    else:
+        print("\nInvalid Input!!!\nPlease enter only 'y' or 'n':>>\n")
+        time.sleep(2)
+        Wanna_Play()
+
+def Rules():
+    print('''
+            HANGMAN RULES
+
+Objective: Guess the randomly selected hidden word before you run out of attempts.
+
+Game Setup:
+
+The program selects a word at random and displays the empty spaces for each letter.
+You start with 6 number of attempts.
+
+Guessing Letters:
+
+You try to guess letters one at a time.
+Correct guesses fill in the blank spaces.
+Incorrect guesses result in losing an attempt.
+
+Winning Points:
+
+If you correctly guess the word without using a hint, you earn 10 points for that word.
+Using Hints:
+
+If you use a hint (e.g., asking for a clue), you earn 5 points for that word.
+
+Retry:
+
+If you lose the game by running out of attempts, you can retry and play again with a new randomly chosen word.
+
+End of Game:
+
+The game ends when you either correctly guess the word, run out of attempts, or choose to quit.
+
+Scoring:
+
+Keep track of points earned for each word guessed correctly.
+Enjoy the game and aim for a high score!
+
+''')
 points = 0
-
-main_menu()
+print("\n\t\t  Hangman 𝙶𝚊𝚖𝚎 ")
+name=input("\nEnter Your Full Name: ").title()
+intro="\nHello, {} ! 😊\n(: I hope you will enjoy this Game 😁 :)"  
+print(intro.format(name))
+Rules()
+time.sleep(2)
+Wanna_Play()
+print("\nThank You For Playing")
+print("\nName: "+name)
+print("\nYour Score: "+ str(points))
