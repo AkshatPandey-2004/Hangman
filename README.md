@@ -53,6 +53,6 @@ Enjoy the Hangman game and have fun guessing words! Thank you for playing.
 - Name: Akshat Pandey
 
 **Score:**
-- Your Score: 100
+- Your Score: 110
 
 Have a great time playing the game! 😊
