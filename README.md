@@ -51,6 +51,7 @@ Enjoy the Hangman game and have fun guessing words! Thank you for playing.
 
 **Developer:**
 - Name: Akshat Pandey
+- 
 
 **Score:**
 - Your Score: 200
