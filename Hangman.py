@@ -22,7 +22,7 @@ starty = 350
 A = 65
 for i in range(26):
     x = startx + GAP * 2 + ((RADIUS*2 + GAP) * (i % 13))
-    y = starty + ((i // 13)) * (GAP + RADIUS * 2)
+    y = starty + ((i // 13)) * (GAP + RADIUS *2)
     letters.append([x, y, chr(A+i), True])
 
 # Fonts
